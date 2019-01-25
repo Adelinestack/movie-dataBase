@@ -4,12 +4,13 @@ import Header from './Header';
 import NewMovies from './NewMovies';
 import Movie from './Movie';
 import SearchBar from './SearchBar';
+import People from './People';
 import { getUpcoming } from '../services/MoviesApi';
 import './app.css';
 
 const Error = () => <div>404 PAGE</div>;
 
-class App extends Component {
+export default class App extends Component {
   state = {
     upcomingMovies: [],
   };
@@ -53,6 +54,11 @@ class App extends Component {
                   path="/movie/:movieId"
                   render={props => <Movie {...props} />}
                 />
+                <Route
+                  exact
+                  path="/people/:peopleId"
+                  render={props => <People {...props} />}
+                />
                 <Route path="/" component={Error} />
               </Switch>
             </main>
@@ -62,5 +68,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

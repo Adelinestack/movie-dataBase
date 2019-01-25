@@ -4,6 +4,7 @@ const API_KEY = 'c06055f57e454430ce3a469ce1c5e899';
 
 const API_MOVIES_URL = 'https://api.themoviedb.org/3/movie/';
 const API_SEARCH_URL = 'https://api.themoviedb.org/3/search/movie';
+const API_PEOPLE_URL = 'https://api.themoviedb.org/3/person/';
 
 const getUpcomingMovies = () =>
   axios.get(`${API_MOVIES_URL}upcoming?api_key=${API_KEY}`);
@@ -43,9 +44,18 @@ async function getMoviesDatasByKeyword(keywords) {
   return results;
 }
 
+const getPeopleById = peopleId =>
+  axios.get(`${API_PEOPLE_URL}${peopleId}?api_key=${API_KEY}`);
+
+async function getPeopleDatasById(peopleId) {
+  const { data } = await getPeopleById(peopleId);
+  return data;
+}
+
 export {
   getUpcoming,
   getMovieDatasById,
   getCastDatasByMovieId,
   getMoviesDatasByKeyword,
+  getPeopleDatasById,
 };

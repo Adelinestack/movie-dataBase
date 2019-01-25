@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getCastDatasByMovieId } from '../services/MoviesApi';
 import './cast.css';
 
@@ -27,11 +28,13 @@ export default class Cast extends Component {
       if (actor.profile_path) {
         return (
           <div className="cast-block">
-            <img
-              src={`https://image.tmdb.org/t/p/w300/${actor.profile_path}`}
-              alt={actor.name}
-            />
-            <p>{actor.name}</p>
+            <Link to={`/people/${actor.id}`}>
+              <img
+                src={`https://image.tmdb.org/t/p/w300/${actor.profile_path}`}
+                alt={actor.name}
+              />
+              <p>{actor.name}</p>
+            </Link>
           </div>
         );
       }
