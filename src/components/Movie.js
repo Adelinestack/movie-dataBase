@@ -1,42 +1,69 @@
 import React, { Component } from 'react';
 import Cast from './Cast';
+import { getMovieDatasById } from '../services/MoviesApi';
 
 import './movie.css';
 
 export default class Movie extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { movieDatas: {} };
+  }
+  componentDidMount() {
+    this.fetchMovieDataById();
+  }
+
+  async fetchMovieDataById() {
+    const { movieId } = this.props.match.params;
+    const movieDatas = await getMovieDatasById(movieId);
+    this.setState({
+      movieDatas,
+    });
+  }
+
   render() {
+    const { movieId } = this.props.match.params;
+    const {
+      poster_path: posterPath,
+      title,
+      release_date: releaseDate,
+      vote_average: rating,
+      vote_count: voteCount,
+      genres: genresList = [],
+      overview,
+    } = this.state.movieDatas;
+    const genres = genresList.map(genre => <span>{genre.name} </span>);
+
     return (
       <div>
         <section className="movie">
           <div className="movie-img">
-            <img src="https://image.tmdb.org/t/p/w300/svIDTNUoajS8dLEo7EosxvyAsgJ.jpg" />
+            <img src={`https://image.tmdb.org/t/p/w300/${posterPath}`} />
           </div>
           <div className="movie-details">
-            <h2>Glass</h2>
+            <h2>{title}</h2>
             <div>
               <p>
-                <span className="bold">Release Date: </span>2019-01-16
+                <span className="bold">Release Date: </span>
+                {releaseDate}
               </p>
               <p>
-                <span className="bold">Rating: </span>6.9
+                <span className="bold">Rating: </span>
+                {rating}
               </p>
               <p>
-                <span className="bold">Vote count: </span>636
+                <span className="bold">Vote count: </span>
+                {voteCount}
               </p>
               <p>
-                <span className="bold">Genre: </span>Thriller
+                <span className="bold">Genre: </span>
+                {genres}
               </p>
             </div>
-            <p>
-              In a series of escalating encounters, security guard David Dunn
-              uses his supernatural abilities to track Kevin Wendell Crumb, a
-              disturbed man who has twenty-four personalities. Meanwhile, the
-              shadowy presence of Elijah Price emerges as an orchestrator who
-              holds secrets critical to both men.
-            </p>
+            <p>{overview}</p>
           </div>
         </section>
-        <Cast />
+        <Cast movieId={movieId} />
       </div>
     );
   }

@@ -50,7 +50,11 @@ class App extends Component {
                     <NewMovies {...props} upcomingMovies={upcomingMovies} />
                   )}
                 />
-                <Route exact path="/movie" component={Movie} />
+                <Route
+                  exact
+                  path="/movie/:movieId"
+                  render={props => <Movie {...props} />}
+                />
                 <Route path="/" component={Error} />
               </Switch>
             </main>
