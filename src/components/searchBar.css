@@ -1,0 +1,36 @@
+.search-bar-container {
+  padding-top: 25px;
+  text-align: center;
+  position: relative;
+}
+.search-bar {
+  width: 100%;
+  padding: 20px 0 20px 40px;
+  border: 1px solid #bdbdbd;
+  color: #000;
+  outline: none;
+  position: relative;
+}
+.fa-search {
+  position: absolute;
+  z-index: 10;
+  margin: 20px 0 0 10px;
+}
+.search-results {
+  position: absolute;
+  z-index: 20;
+  width: 100%;
+  text-align: left;
+  background-color: #263238;
+  color: #fff;
+}
+.search-bar-container a {
+  color: #fff;
+  display: flex;
+  padding: 20px;
+}
+.img-result {
+  width: 100px;
+  margin-right: 20px;
+  align-self: center;
+}

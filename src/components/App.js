@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import NewMovies from './NewMovies';
 import Movie from './Movie';
+import SearchBar from './SearchBar';
 import { getUpcoming } from '../services/MoviesApi';
 import './app.css';
 
@@ -26,7 +27,11 @@ class App extends Component {
 
   render() {
     const { upcomingMovies } = this.state;
-    const loadingElement = upcomingMovies.length === 0 && <div>LOADING</div>;
+    const loadingElement = upcomingMovies.length === 0 && (
+      <div className="container">
+        <i className="fas fa-3x fa-spinner fa-pulse" />
+      </div>
+    );
 
     return (
       loadingElement || (
@@ -34,14 +39,7 @@ class App extends Component {
           <div className="container">
             <Header />
             <main>
-              <div className="search-bar-container">
-                <i className="fas fa-search" />
-                <input
-                  type="text"
-                  className="search-bar"
-                  placeholder="Search a movie"
-                />
-              </div>
+              <SearchBar />
               <Switch>
                 <Route
                   exact

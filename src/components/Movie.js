@@ -10,11 +10,14 @@ export default class Movie extends Component {
     this.state = { movieDatas: {} };
   }
   componentDidMount() {
-    this.fetchMovieDataById();
+    this.fetchMovieDataById(this.props.match.params.movieId);
   }
 
-  async fetchMovieDataById() {
-    const { movieId } = this.props.match.params;
+  componentWillReceiveProps(nextProps) {
+    this.fetchMovieDataById(nextProps.match.params.movieId);
+  }
+
+  async fetchMovieDataById(movieId) {
     const movieDatas = await getMovieDatasById(movieId);
     this.setState({
       movieDatas,

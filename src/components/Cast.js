@@ -8,11 +8,13 @@ export default class Cast extends Component {
     this.state = { castDatas: [] };
   }
   componentDidMount() {
-    this.fetchCastDataByMovieId();
+    this.fetchCastDataByMovieId(this.props.movieId);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.fetchCastDataByMovieId(nextProps.movieId);
   }
 
-  async fetchCastDataByMovieId() {
-    const { movieId } = this.props;
+  async fetchCastDataByMovieId(movieId) {
     const castDatas = await getCastDatasByMovieId(movieId);
     this.setState({
       castDatas,
