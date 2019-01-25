@@ -1,0 +1,9 @@
+header a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+.fa-play-circle {
+  font-size: 25px;
+}

@@ -1,0 +1,23 @@
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.search-bar_container {
+  padding-top: 25px;
+  text-align: center;
+  position: relative;
+}
+.search-bar {
+  width: 100%;
+  padding: 20px 0 20px 40px;
+  border: 1px solid #bdbdbd;
+  color: #000;
+  outline: none;
+  position: relative;
+}
+.fa-search {
+  position: absolute;
+  z-index: 10;
+  margin: 18px 0 0 10px;
+}

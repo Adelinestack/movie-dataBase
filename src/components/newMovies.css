@@ -1,0 +1,35 @@
+.new-movies-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+}
+.movie-block {
+  margin-bottom: 30px;
+  position: relative;
+}
+.movie-block img {
+  width: 100%;
+  height: auto;
+}
+.movie-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  text-align: center;
+  padding: 0 10px;
+  width: 100%;
+  height: 100%;
+  background-color: #263238;
+  color: #1de9b6;
+  opacity: 0;
+  visibility: hidden;
+}
+.movie-block:hover .movie-data {
+  opacity: 1;
+  visibility: visible;
+}
