@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './header.module.css';
 
-export default function Header() {
+function Header() {
   return (
     <header>
       <a href="/">
@@ -11,3 +11,4 @@ export default function Header() {
     </header>
   );
 }
+export default memo(Header);

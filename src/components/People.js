@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { getPeopleDatasById } from '../services/MoviesApi';
 import './people.css';
 
-export default class People extends Component {
+export default class People extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { peopleDatas: {}, id: this.props.match.params.peopleId };

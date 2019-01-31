@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import './newMovies.css';
 
-export default class NewMovies extends Component {
+export default class NewMovies extends PureComponent {
   render() {
     const { upcomingMovies } = this.props;
     const upcomingMoviesList = upcomingMovies.map(upcomingMovie => (

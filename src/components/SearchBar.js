@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { getMoviesDatasByKeyword } from '../services/MoviesApi';
 import { Link, withRouter } from 'react-router-dom';
 import './searchBar.css';
 
-class SearchBar extends Component {
+class SearchBar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { keywords: '', searchedMovies: [] };

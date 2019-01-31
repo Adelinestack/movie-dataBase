@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import NewMovies from './NewMovies';
@@ -10,7 +10,7 @@ import { Container } from '../stylized/appStyle.js';
 
 const Error = () => <div>404 PAGE</div>;
 
-export default class App extends Component {
+export default class App extends PureComponent {
   state = {
     upcomingMovies: [],
   };

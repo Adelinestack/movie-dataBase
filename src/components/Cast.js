@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { getCastDatasByMovieId } from '../services/MoviesApi';
 import styles from './cast.module.css';
 
-export default class Cast extends Component {
+export default class Cast extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { castDatas: [], id: this.props.movieId };

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Cast from './Cast';
 import { getMovieDatasById } from '../services/MoviesApi';
 
@@ -6,7 +6,7 @@ import styles from './movie.module.css';
 
 const imgUrl = 'https://image.tmdb.org/t/p/w300/';
 
-export default class Movie extends Component {
+export default class Movie extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { movieDatas: {}, id: this.props.match.params.movieId };
