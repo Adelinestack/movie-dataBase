@@ -6,10 +6,11 @@ export default class NewMovies extends Component {
   render() {
     const { upcomingMovies } = this.props;
     const upcomingMoviesList = upcomingMovies.map(upcomingMovie => (
-      <div className="movie-block">
+      <div className="movie-block" key={upcomingMovie.id}>
         <Link to={`/movie/${upcomingMovie.id}`}>
           <img
             src={`https://image.tmdb.org/t/p/w300/${upcomingMovie.poster_path}`}
+            alt={upcomingMovie.title}
           />
           <div className="movie-data">
             <h3>{upcomingMovie.title}</h3>

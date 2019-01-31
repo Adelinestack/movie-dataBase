@@ -6,7 +6,7 @@ import Movie from './Movie';
 import SearchBar from './SearchBar';
 import People from './People';
 import { getUpcoming } from '../services/MoviesApi';
-import './app.css';
+import { Container } from '../stylized/appStyle.js';
 
 const Error = () => <div>404 PAGE</div>;
 
@@ -29,15 +29,15 @@ export default class App extends Component {
   render() {
     const { upcomingMovies } = this.state;
     const loadingElement = upcomingMovies.length === 0 && (
-      <div className="container">
+      <Container>
         <i className="fas fa-3x fa-spinner fa-pulse" />
-      </div>
+      </Container>
     );
 
     return (
       loadingElement || (
         <BrowserRouter>
-          <div className="container">
+          <Container>
             <Header />
             <main>
               <SearchBar />
@@ -62,7 +62,7 @@ export default class App extends Component {
                 <Route path="/" component={Error} />
               </Switch>
             </main>
-          </div>
+          </Container>
         </BrowserRouter>
       )
     );

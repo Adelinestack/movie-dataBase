@@ -5,13 +5,25 @@ import './people.css';
 export default class People extends Component {
   constructor(props) {
     super(props);
-    this.state = { peopleDatas: [] };
+    this.state = { peopleDatas: {}, id: this.props.match.params.peopleId };
   }
   componentDidMount() {
     this.fetchPeopleDataById(this.props.match.params.peopleId);
   }
-  componentWillReceiveProps(nextProps) {
-    this.fetchPeopleDataById(nextProps.peopleId);
+  static getDerivedStateFromProps(props, state) {
+    if (props.match.params.peopleId !== state.id) {
+      return {
+        peopleDatas: {},
+        id: props.match.params.peopleId,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate() {
+    if (this.state.peopleDatas === null) {
+      this.fetchPeopleDataById(this.props.peopleId);
+    }
   }
 
   async fetchPeopleDataById(peopleId) {
@@ -35,7 +47,7 @@ export default class People extends Component {
       <div>
         <section className="movie">
           <div className="movie-img">
-            <img src={`https://image.tmdb.org/t/p/w300/${photo}`} />
+            <img src={`https://image.tmdb.org/t/p/w300/${photo}`} alt={name} />
           </div>
           <div className="movie-details">
             <h2>{name}</h2>
