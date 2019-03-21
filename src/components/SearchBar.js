@@ -1,7 +1,14 @@
 import React, { PureComponent } from 'react';
 import { getMoviesDatasByKeyword } from '../services/MoviesApi';
 import { Link, withRouter } from 'react-router-dom';
-import './searchBar.css';
+import { LanguageContext } from '../contexts/LanguageContext';
+import {
+  ImgResult,
+  SearchbarContainer,
+  Searchbar,
+  SearchLogo,
+  SearchResults,
+} from '../stylized/searchbarStyle.js';
 
 class SearchBar extends PureComponent {
   constructor(props) {
@@ -32,14 +39,13 @@ class SearchBar extends PureComponent {
 
   render() {
     const { searchedMovies } = this.state;
+
     const searchResults = searchedMovies.map(movie => (
       <Link
-        className=""
         to={`/movie/${movie.id}`}
         onClick={this.onClick.bind(this, movie.id)}
       >
-        <img
-          className="img-result"
+        <ImgResult
           src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
           alt={movie.title}
         />
@@ -50,17 +56,16 @@ class SearchBar extends PureComponent {
       </Link>
     ));
     return (
-      <div className="search-bar-container">
-        <i className="fas fa-search" />
-        <input
+      <SearchbarContainer>
+        <SearchLogo className="fas fa-search" />
+        <Searchbar
           type="text"
-          className="search-bar"
           placeholder="Search a movie"
           value={this.state.keywords}
           onChange={this.onChange.bind(this)}
         />
-        <div className="search-results">{searchResults}</div>
-      </div>
+        <SearchResults>{searchResults}</SearchResults>
+      </SearchbarContainer>
     );
   }
 }

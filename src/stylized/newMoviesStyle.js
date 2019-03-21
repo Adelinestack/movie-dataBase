@@ -1,19 +1,19 @@
-.new-movies-container {
+import styled from 'styled-components';
+
+const NewMovieContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-between;
-}
-.movie-block {
-  margin-bottom: 30px;
-  position: relative;
-}
-.movie-block img {
+`;
+
+const MovieImg = styled.img`
   width: 100%;
   height: auto;
-}
-.movie-data {
+`;
+
+const MovieDatas = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,8 +28,16 @@
   color: #1de9b6;
   opacity: 0;
   visibility: hidden;
-}
-.movie-block:hover .movie-data {
-  opacity: 1;
-  visibility: visible;
-}
+`;
+
+const MovieBlock = styled.div`
+  margin-bottom: 30px;
+  position: relative;
+
+  &:hover ${MovieDatas} {
+    opacity: 1;
+    visibility: visible;
+  }
+`;
+
+export { NewMovieContainer, MovieBlock, MovieImg, MovieDatas };

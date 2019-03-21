@@ -1,6 +1,11 @@
 import React, { PureComponent } from 'react';
 import { getPeopleDatasById } from '../services/MoviesApi';
-import './people.css';
+import {
+  MovieContent,
+  MovieImg,
+  MovieDetails,
+  Info,
+} from '../stylized/movieStyle.js';
 
 export default class People extends PureComponent {
   constructor(props) {
@@ -45,29 +50,29 @@ export default class People extends PureComponent {
 
     return (
       <div>
-        <section className="movie">
-          <div className="movie-img">
+        <MovieContent>
+          <MovieImg>
             <img src={`https://image.tmdb.org/t/p/w300/${photo}`} alt={name} />
-          </div>
-          <div className="movie-details">
+          </MovieImg>
+          <MovieDetails>
             <h2>{name}</h2>
             <div>
               <p>
-                <span className="bold">Birth date: </span>
+                <Info>Birth date: </Info>
                 {birthday}
               </p>
               <p>
-                <span className="bold">Birth place: </span>
+                <Info>Birth place: </Info>
                 {birthPlace}
               </p>
               <p>
-                <span className="bold">Death: </span>
+                <Info>Death: </Info>
                 {deathday}
               </p>
             </div>
             <p>{biography}</p>
-          </div>
-        </section>
+          </MovieDetails>
+        </MovieContent>
       </div>
     );
   }

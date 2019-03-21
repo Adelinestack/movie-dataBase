@@ -1,18 +1,35 @@
 import React, { PureComponent } from 'react';
 import Cast from './Cast';
 import { getMovieDatasById } from '../services/MoviesApi';
+import { LanguageContext } from '../contexts/LanguageContext';
+import withLanguagesContext from '../hoc/withLanguagesContext';
 
-import styles from './movie.module.css';
+import {
+  MovieContent,
+  MovieImg,
+  MovieDetails,
+  Info,
+} from '../stylized/movieStyle.js';
 
 const imgUrl = 'https://image.tmdb.org/t/p/w300/';
 
-export default class Movie extends PureComponent {
+class Movie extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { movieDatas: {}, id: this.props.match.params.movieId };
+    this.state = {
+      movieDatas: {},
+      id: this.props.match.params.movieId,
+      language: this.props.language,
+    };
   }
+
+  static contextType = LanguageContext;
+
   componentDidMount() {
-    this.fetchMovieDataById(this.props.match.params.movieId);
+    this.fetchMovieDataById(
+      this.props.match.params.movieId,
+      this.props.language
+    );
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -25,14 +42,20 @@ export default class Movie extends PureComponent {
     return null;
   }
 
-  componentDidUpdate() {
-    if (this.state.movieDatas.length === 0) {
-      this.fetchMovieDataById(this.props.movieId);
+  componentDidUpdate(prevprops) {
+    if (
+      this.state.movieDatas.length === 0 ||
+      this.props.language !== prevprops.language
+    ) {
+      this.fetchMovieDataById(
+        this.props.match.params.movieId,
+        this.props.language
+      );
     }
   }
 
-  async fetchMovieDataById(movieId) {
-    const movieDatas = await getMovieDatasById(movieId);
+  async fetchMovieDataById(movieId, language) {
+    const movieDatas = await getMovieDatasById(movieId, language);
     this.setState({
       movieDatas,
     });
@@ -40,6 +63,7 @@ export default class Movie extends PureComponent {
 
   render() {
     const { movieId } = this.props.match.params;
+    const { language } = this.props;
     const {
       poster_path: posterPath,
       title,
@@ -53,35 +77,37 @@ export default class Movie extends PureComponent {
 
     return (
       <div>
-        <section className={styles.movie} key={movieId}>
-          <div className="movie-img">
+        <MovieContent key={movieId}>
+          <MovieImg>
             <img src={`${imgUrl}${posterPath}`} alt={title} />
-          </div>
-          <div className={styles['movie-details']}>
+          </MovieImg>
+          <MovieDetails>
             <h2>{title}</h2>
             <div>
               <p>
-                <span className={styles.bold}>Release Date: </span>
+                <Info>Release Date: </Info>
                 {releaseDate}
               </p>
               <p>
-                <span className={styles.bold}>Rating: </span>
+                <Info>Rating: </Info>
                 {rating}
               </p>
               <p>
-                <span className={styles.bold}>Vote count: </span>
+                <Info>Vote count: </Info>
                 {voteCount}
               </p>
               <p>
-                <span className={styles.bold}>Genre: </span>
+                <Info>Genre: </Info>
                 {genres}
               </p>
             </div>
             <p>{overview}</p>
-          </div>
-        </section>
+          </MovieDetails>
+        </MovieContent>
         <Cast movieId={movieId} />
       </div>
     );
   }
 }
+
+export default withLanguagesContext(Movie);

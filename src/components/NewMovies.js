@@ -1,29 +1,40 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
-import './newMovies.css';
 
-export default class NewMovies extends PureComponent {
+import {
+  NewMovieContainer,
+  MovieBlock,
+  MovieImg,
+  MovieDatas,
+} from '../stylized/newMoviesStyle.js';
+
+import withLanguagesContext from '../hoc/withLanguagesContext';
+
+class NewMovies extends PureComponent {
   render() {
-    const { upcomingMovies } = this.props;
+    const { upcomingMovies, language } = this.props;
+
+    const title = language === 'en-EN' ? 'New releases' : 'Dernières sorties';
     const upcomingMoviesList = upcomingMovies.map(upcomingMovie => (
-      <div className="movie-block" key={upcomingMovie.id}>
+      <MovieBlock key={upcomingMovie.id}>
         <Link to={`/movie/${upcomingMovie.id}`}>
-          <img
+          <MovieImg
             src={`https://image.tmdb.org/t/p/w300/${upcomingMovie.poster_path}`}
             alt={upcomingMovie.title}
           />
-          <div className="movie-data">
+          <MovieDatas>
             <h3>{upcomingMovie.title}</h3>
             <p>{upcomingMovie.release_date}</p>
-          </div>
+          </MovieDatas>
         </Link>
-      </div>
+      </MovieBlock>
     ));
     return (
       <section>
-        <h2>New releases</h2>
-        <div className="new-movies-container">{upcomingMoviesList}</div>
+        <h2>{title}</h2>
+        <NewMovieContainer>{upcomingMoviesList}</NewMovieContainer>
       </section>
     );
   }
 }
+export default withLanguagesContext(NewMovies);

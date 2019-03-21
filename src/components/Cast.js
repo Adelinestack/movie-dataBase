@@ -1,16 +1,23 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { getCastDatasByMovieId } from '../services/MoviesApi';
-import styles from './cast.module.css';
+import { LanguageContext } from '../contexts/LanguageContext';
+import withLanguagesContext from '../hoc/withLanguagesContext';
+import { CastContainer, CastBlock, CastPhoto } from '../stylized/castStyle.js';
 
-export default class Cast extends PureComponent {
+class Cast extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { castDatas: [], id: this.props.movieId };
+    this.state = {
+      castDatas: [],
+      id: this.props.movieId,
+      language: this.props.language,
+    };
   }
+  static contextType = LanguageContext;
 
   componentDidMount() {
-    this.fetchCastDataByMovieId(this.props.movieId);
+    this.fetchCastDataByMovieId(this.props.movieId, this.props.language);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -23,14 +30,17 @@ export default class Cast extends PureComponent {
     return null;
   }
 
-  componentDidUpdate() {
-    if (this.state.castDatas === null) {
-      this.fetchCastDataByMovieId(this.props.movieId);
+  componentDidUpdate(prevprops) {
+    if (
+      this.state.castDatas === null ||
+      this.props.language !== prevprops.language
+    ) {
+      this.fetchCastDataByMovieId(this.props.movieId, this.props.language);
     }
   }
 
-  async fetchCastDataByMovieId(movieId) {
-    const castDatas = await getCastDatasByMovieId(movieId);
+  async fetchCastDataByMovieId(movieId, language) {
+    const castDatas = await getCastDatasByMovieId(movieId, language);
     this.setState({
       castDatas,
     });
@@ -38,28 +48,32 @@ export default class Cast extends PureComponent {
 
   render() {
     const { castDatas } = this.state;
+    const { language } = this.props;
     const cast = castDatas.map(actor => {
       if (actor.profile_path) {
         return (
-          <div className={styles['cast-block']} key={actor.id}>
+          <CastBlock key={actor.id}>
             <Link to={`/people/${actor.id}`}>
-              <img
+              <CastPhoto
                 src={`https://image.tmdb.org/t/p/w300/${actor.profile_path}`}
                 alt={actor.name}
               />
               <p>{actor.name}</p>
             </Link>
-          </div>
+          </CastBlock>
         );
       }
       return '';
     });
+    const title = language === 'en-EN' ? 'Cast' : 'Distribution';
 
     return (
       <section>
-        <h3>Cast</h3>
-        <div className={styles['cast-container']}>{cast}</div>
+        <h3>{title}</h3>
+        <CastContainer>{cast}</CastContainer>
       </section>
     );
   }
 }
+
+export default withLanguagesContext(Cast);
