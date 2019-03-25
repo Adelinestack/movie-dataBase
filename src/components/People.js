@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
 import { getPeopleDatasById } from '../services/MoviesApi';
+import { LanguageContext } from '../contexts/LanguageContext';
+import withLanguagesContext from '../hoc/withLanguagesContext';
+import { LANGUAGES } from '../utils/languages';
 import {
   MovieContent,
   MovieImg,
@@ -7,14 +10,25 @@ import {
   Info,
 } from '../stylized/movieStyle.js';
 
-export default class People extends PureComponent {
+class People extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { peopleDatas: {}, id: this.props.match.params.peopleId };
+    this.state = {
+      peopleDatas: {},
+      id: this.props.match.params.peopleId,
+      language: this.props.language,
+    };
   }
+
+  static contextType = LanguageContext;
+
   componentDidMount() {
-    this.fetchPeopleDataById(this.props.match.params.peopleId);
+    this.fetchPeopleDataById(
+      this.props.match.params.peopleId,
+      this.props.language
+    );
   }
+
   static getDerivedStateFromProps(props, state) {
     if (props.match.params.peopleId !== state.id) {
       return {
@@ -25,14 +39,20 @@ export default class People extends PureComponent {
     return null;
   }
 
-  componentDidUpdate() {
-    if (this.state.peopleDatas === null) {
-      this.fetchPeopleDataById(this.props.peopleId);
+  componentDidUpdate(prevstate) {
+    if (
+      this.state.peopleDatas === null ||
+      this.props.language !== prevstate.language
+    ) {
+      this.fetchPeopleDataById(
+        this.props.match.params.peopleId,
+        this.props.language
+      );
     }
   }
 
-  async fetchPeopleDataById(peopleId) {
-    const peopleDatas = await getPeopleDatasById(peopleId);
+  async fetchPeopleDataById(peopleId, language) {
+    const peopleDatas = await getPeopleDatasById(peopleId, language);
     this.setState({
       peopleDatas,
     });
@@ -47,6 +67,10 @@ export default class People extends PureComponent {
       place_of_birth: birthPlace,
       profile_path: photo,
     } = this.state.peopleDatas;
+    const { language } = this.props;
+    const {
+      [language]: { birthDate, place, death, bio },
+    } = LANGUAGES;
 
     return (
       <div>
@@ -58,22 +82,26 @@ export default class People extends PureComponent {
             <h2>{name}</h2>
             <div>
               <p>
-                <Info>Birth date: </Info>
+                <Info>{birthDate}: </Info>
                 {birthday}
               </p>
               <p>
-                <Info>Birth place: </Info>
+                <Info>{place}: </Info>
                 {birthPlace}
               </p>
               <p>
-                <Info>Death: </Info>
-                {deathday}
+                <Info>{death}: </Info>
+                {deathday || '-'}
               </p>
             </div>
-            <p>{biography}</p>
+            <div>
+              <Info>{bio}: </Info>
+              <p>{biography || '-'}</p>
+            </div>
           </MovieDetails>
         </MovieContent>
       </div>
     );
   }
 }
+export default withLanguagesContext(People);

@@ -1,23 +1,36 @@
 import React, { PureComponent } from 'react';
 import { getMoviesDatasByKeyword } from '../services/MoviesApi';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { LanguageContext } from '../contexts/LanguageContext';
+import withLanguagesContext from '../hoc/withLanguagesContext';
+import SearchResults from './SearchResults';
+import { LANGUAGES } from '../utils/languages';
 import {
-  ImgResult,
   SearchbarContainer,
   Searchbar,
   SearchLogo,
-  SearchResults,
+  SearchResultsContainer,
 } from '../stylized/searchbarStyle.js';
 
 class SearchBar extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { keywords: '', searchedMovies: [] };
+    this.state = {
+      keywords: '',
+      searchedMovies: [],
+      language: this.props.language,
+    };
   }
 
+  static contextType = LanguageContext;
+
   onChange({ target: { value: keywords } }) {
-    this.setState({ keywords }, this.fetchSearchedMovies);
+    this.setState(
+      { keywords },
+      keywords.length > 0
+        ? this.fetchSearchedMovies
+        : this.setState({ searchedMovies: [] })
+    );
   }
 
   async fetchSearchedMovies() {
@@ -39,34 +52,28 @@ class SearchBar extends PureComponent {
 
   render() {
     const { searchedMovies } = this.state;
+    const { language } = this.props;
+    const {
+      [language]: { placeholder },
+    } = LANGUAGES;
 
-    const searchResults = searchedMovies.map(movie => (
-      <Link
-        to={`/movie/${movie.id}`}
-        onClick={this.onClick.bind(this, movie.id)}
-      >
-        <ImgResult
-          src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-          alt={movie.title}
-        />
-        <div>
-          <p>{movie.title}</p>
-          <p>{movie.release_date}</p>
-        </div>
-      </Link>
-    ));
     return (
       <SearchbarContainer>
         <SearchLogo className="fas fa-search" />
         <Searchbar
           type="text"
-          placeholder="Search a movie"
+          placeholder={placeholder}
           value={this.state.keywords}
           onChange={this.onChange.bind(this)}
         />
-        <SearchResults>{searchResults}</SearchResults>
+        <SearchResultsContainer>
+          <SearchResults
+            searchedMovies={searchedMovies}
+            onClick={this.onClick.bind(this)}
+          />
+        </SearchResultsContainer>
       </SearchbarContainer>
     );
   }
 }
-export default withRouter(SearchBar);
+export default withRouter(withLanguagesContext(SearchBar));

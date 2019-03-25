@@ -3,7 +3,7 @@ import Cast from './Cast';
 import { getMovieDatasById } from '../services/MoviesApi';
 import { LanguageContext } from '../contexts/LanguageContext';
 import withLanguagesContext from '../hoc/withLanguagesContext';
-
+import { LANGUAGES } from '../utils/languages';
 import {
   MovieContent,
   MovieImg,
@@ -63,7 +63,6 @@ class Movie extends PureComponent {
 
   render() {
     const { movieId } = this.props.match.params;
-    const { language } = this.props;
     const {
       poster_path: posterPath,
       title,
@@ -73,8 +72,11 @@ class Movie extends PureComponent {
       genres: genresList = [],
       overview,
     } = this.state.movieDatas;
-    const genres = genresList.map(genre => <span>{genre.name} </span>);
-
+    const genres = genresList.map(({ name }) => <span>{name} </span>);
+    const { language } = this.props;
+    const {
+      [language]: { movieRelease, movieRating, vote },
+    } = LANGUAGES;
     return (
       <div>
         <MovieContent key={movieId}>
@@ -85,15 +87,15 @@ class Movie extends PureComponent {
             <h2>{title}</h2>
             <div>
               <p>
-                <Info>Release Date: </Info>
+                <Info>{movieRelease}: </Info>
                 {releaseDate}
               </p>
               <p>
-                <Info>Rating: </Info>
+                <Info>{movieRating}: </Info>
                 {rating}
               </p>
               <p>
-                <Info>Vote count: </Info>
+                <Info>{vote}: </Info>
                 {voteCount}
               </p>
               <p>

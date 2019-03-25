@@ -4,6 +4,7 @@ import { getCastDatasByMovieId } from '../services/MoviesApi';
 import { LanguageContext } from '../contexts/LanguageContext';
 import withLanguagesContext from '../hoc/withLanguagesContext';
 import { CastContainer, CastBlock, CastPhoto } from '../stylized/castStyle.js';
+import { LANGUAGES } from '../utils/languages';
 
 class Cast extends PureComponent {
   constructor(props) {
@@ -49,27 +50,30 @@ class Cast extends PureComponent {
   render() {
     const { castDatas } = this.state;
     const { language } = this.props;
-    const cast = castDatas.map(actor => {
-      if (actor.profile_path) {
+    const {
+      [language]: { castTitle },
+    } = LANGUAGES;
+
+    const cast = castDatas.map(({ profile_path: profilePath, id, name }) => {
+      if (profilePath) {
         return (
-          <CastBlock key={actor.id}>
-            <Link to={`/people/${actor.id}`}>
+          <CastBlock key={id}>
+            <Link to={`/people/${id}`}>
               <CastPhoto
-                src={`https://image.tmdb.org/t/p/w300/${actor.profile_path}`}
-                alt={actor.name}
+                src={`https://image.tmdb.org/t/p/w300/${profilePath}`}
+                alt={name}
               />
-              <p>{actor.name}</p>
+              <p>{name}</p>
             </Link>
           </CastBlock>
         );
       }
       return '';
     });
-    const title = language === 'en-EN' ? 'Cast' : 'Distribution';
 
     return (
       <section>
-        <h3>{title}</h3>
+        <h3>{castTitle}</h3>
         <CastContainer>{cast}</CastContainer>
       </section>
     );

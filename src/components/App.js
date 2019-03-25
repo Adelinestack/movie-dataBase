@@ -6,10 +6,10 @@ import NewMovies from './NewMovies';
 import Movie from './Movie';
 import SearchBar from './SearchBar';
 import People from './People';
+import Error from './Error';
 import { getUpcoming } from '../services/MoviesApi';
-import { Container } from '../stylized/appStyle.js';
-
-const Error = () => <div>404 PAGE</div>;
+import { Container, PagesContainer, Main } from '../stylized/appStyle.js';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export default class App extends PureComponent {
   state = {
@@ -22,10 +22,10 @@ export default class App extends PureComponent {
     this.fetchUpcomingMovies(this.state.language);
   }
 
-  componentDidUpdate(prevstate) {
+  componentDidUpdate(prevProps, prevState) {
     if (
       this.state.upcomingMovies.length === 0 ||
-      this.state.language !== prevstate.language
+      this.state.language !== prevState.language
     ) {
       this.fetchUpcomingMovies(this.state.language);
     }
@@ -44,7 +44,7 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const { upcomingMovies, language } = this.state;
+    const { upcomingMovies } = this.state;
     const loadingElement = upcomingMovies.length === 0 && (
       <Container>
         <i className="fas fa-3x fa-spinner fa-pulse" />
@@ -57,29 +57,48 @@ export default class App extends PureComponent {
           <Container>
             <LanguageContext.Provider value={this.state}>
               <Header />
-              <main>
+              <Main>
                 <SearchBar />
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    render={props => (
-                      <NewMovies {...props} upcomingMovies={upcomingMovies} />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/movie/:movieId"
-                    render={props => <Movie {...props} />}
-                  />
-                  <Route
-                    exact
-                    path="/people/:peopleId"
-                    render={props => <People {...props} />}
-                  />
-                  <Route path="/" component={Error} />
-                </Switch>
-              </main>{' '}
+                <Route
+                  render={({ location }) => {
+                    return (
+                      <TransitionGroup>
+                        <CSSTransition
+                          key={location && location.key}
+                          classNames="page"
+                          timeout={3000}
+                        >
+                          <PagesContainer>
+                            <Switch location={location}>
+                              <Route
+                                exact
+                                path="/"
+                                render={props => (
+                                  <NewMovies
+                                    {...props}
+                                    upcomingMovies={upcomingMovies}
+                                  />
+                                )}
+                              />
+                              <Route
+                                exact
+                                path="/movie/:movieId"
+                                render={props => <Movie {...props} />}
+                              />
+                              <Route
+                                exact
+                                path="/people/:peopleId"
+                                render={props => <People {...props} />}
+                              />
+                              <Route path="/" component={Error} />
+                            </Switch>
+                          </PagesContainer>
+                        </CSSTransition>
+                      </TransitionGroup>
+                    );
+                  }}
+                />
+              </Main>
             </LanguageContext.Provider>
           </Container>
         </BrowserRouter>

@@ -27,7 +27,7 @@ const SearchLogo = styled.i`
   margin: 20px 0 0 10px;
 `;
 
-const SearchResults = styled.div`
+const SearchResultsContainer = styled.div`
   position: absolute;
   z-index: 20;
   width: 100%;
@@ -42,4 +42,10 @@ const ImgResult = styled.img`
   align-self: center;
 `;
 
-export { SearchbarContainer, Searchbar, SearchLogo, SearchResults, ImgResult };
+export {
+  SearchbarContainer,
+  Searchbar,
+  SearchLogo,
+  SearchResultsContainer,
+  ImgResult,
+};

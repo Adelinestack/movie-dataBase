@@ -1,10 +1,10 @@
 import axios from 'axios';
-
-const API_KEY = 'c06055f57e454430ce3a469ce1c5e899';
-
-const API_MOVIES_URL = 'https://api.themoviedb.org/3/movie/';
-const API_SEARCH_URL = 'https://api.themoviedb.org/3/search/movie';
-const API_PEOPLE_URL = 'https://api.themoviedb.org/3/person/';
+import {
+  API_KEY,
+  API_MOVIES_URL,
+  API_SEARCH_URL,
+  API_PEOPLE_URL,
+} from '../utils/const';
 
 const getUpcomingMovies = language =>
   axios.get(
