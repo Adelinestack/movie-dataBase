@@ -13,13 +13,13 @@ class Cast extends PureComponent {
     this.state = {
       castDatas: [],
       id: this.props.movieId,
-      language: this.props.language,
     };
   }
   static contextType = LanguageContext;
 
   componentDidMount() {
-    this.fetchCastDataByMovieId(this.props.movieId, this.props.language);
+    const { movieId, language } = this.props;
+    this.fetchCastDataByMovieId(movieId, language);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -33,11 +33,9 @@ class Cast extends PureComponent {
   }
 
   componentDidUpdate(prevprops) {
-    if (
-      this.state.castDatas === null ||
-      this.props.language !== prevprops.language
-    ) {
-      this.fetchCastDataByMovieId(this.props.movieId, this.props.language);
+    const { movieId, language } = this.props;
+    if (this.state.castDatas === null || language !== prevprops.language) {
+      this.fetchCastDataByMovieId(movieId, language);
     }
   }
 
