@@ -1,6 +1,32 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+---
+
+## Project description
+
+---
+
+In this project, we use the movie API moviedb : [movieDB](https://www.themoviedb.org/documentation/api).
+You can search for a film, change the language.
+
+### `Technologies used`
+
+ReactJS, ReactRouter, React new Context API, styled-components, React transition group
+
+### `Getting started`
+
+This project need an API Key.
+Create an account in Movie Db website : [Movie DB](https://www.themoviedb.org/).
+
+Then create your API Key in your profil parameters - API.
+
+You have to export as named export `API_KEY`
+
+---
+
 ## Available Scripts
+
+---
 
 In the project directory, you can run:
 
