@@ -1,10 +1,10 @@
 import axios from 'axios';
 import {
-  API_KEY,
   API_MOVIES_URL,
   API_SEARCH_URL,
   API_PEOPLE_URL,
-} from '../utils/const';
+} from '../utils/APIConst';
+import { API_KEY } from '../utils/APIKey';
 
 const getUpcomingMovies = language =>
   axios.get(

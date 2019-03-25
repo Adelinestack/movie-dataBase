@@ -24,12 +24,14 @@ class SearchBar extends PureComponent {
 
   static contextType = LanguageContext;
 
+  resetSearchedMovies = () => {
+    this.setState({ searchedMovies: [] });
+  };
+
   onChange({ target: { value: keywords } }) {
     this.setState(
       { keywords },
-      keywords.length > 0
-        ? this.fetchSearchedMovies
-        : this.setState({ searchedMovies: [] })
+      keywords.length > 0 ? this.fetchSearchedMovies : this.resetSearchedMovies
     );
   }
 
@@ -48,6 +50,7 @@ class SearchBar extends PureComponent {
       searchedMovies: [],
     });
     this.props.history.push(`/movie/${movieId}`);
+    window.scrollTo(0, 0);
   }
 
   render() {

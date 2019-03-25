@@ -5,6 +5,7 @@ import { LanguageContext } from '../contexts/LanguageContext';
 import withLanguagesContext from '../hoc/withLanguagesContext';
 import { CastContainer, CastBlock, CastPhoto } from '../stylized/castStyle.js';
 import { LANGUAGES } from '../utils/languages';
+import { API_IMG } from '../utils/APIConst';
 
 class Cast extends PureComponent {
   constructor(props) {
@@ -59,10 +60,7 @@ class Cast extends PureComponent {
         return (
           <CastBlock key={id}>
             <Link to={`/people/${id}`}>
-              <CastPhoto
-                src={`https://image.tmdb.org/t/p/w300/${profilePath}`}
-                alt={name}
-              />
+              <CastPhoto src={`${API_IMG}${profilePath}`} alt={name} />
               <p>{name}</p>
             </Link>
           </CastBlock>

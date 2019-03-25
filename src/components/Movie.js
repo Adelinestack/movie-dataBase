@@ -26,6 +26,7 @@ class Movie extends PureComponent {
   static contextType = LanguageContext;
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     this.fetchMovieDataById(
       this.props.match.params.movieId,
       this.props.language

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
+import { API_IMG } from '../utils/APIConst';
 import { ImgResult } from '../stylized/searchbarStyle.js';
 
 export default class Header extends PureComponent {
@@ -10,10 +11,7 @@ export default class Header extends PureComponent {
       searchedMovies.map(
         ({ id, poster_path: posterPath, title, release_date: releaseDate }) => (
           <Link to={`/movie/${id}`} onClick={onClick.bind(null, id)} key={id}>
-            <ImgResult
-              src={`https://image.tmdb.org/t/p/w300/${posterPath}`}
-              alt={title}
-            />
+            <ImgResult src={`${API_IMG}${posterPath}`} alt={title} />
             <div>
               <p>{title}</p>
               <p>{releaseDate}</p>

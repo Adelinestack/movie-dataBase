@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { LANGUAGES } from '../utils/languages';
+import { API_IMG } from '../utils/APIConst';
 import {
   NewMovieContainer,
   MovieBlock,
@@ -20,10 +21,7 @@ class NewMovies extends PureComponent {
       ({ id, poster_path: posterPath, title, release_date: releaseDate }) => (
         <MovieBlock key={id}>
           <Link to={`/movie/${id}`}>
-            <MovieImg
-              src={`https://image.tmdb.org/t/p/w300/${posterPath}`}
-              alt={title}
-            />
+            <MovieImg src={`${API_IMG}${posterPath}`} alt={title} />
             <MovieDatas>
               <h3>{title}</h3>
               <p>{releaseDate}</p>

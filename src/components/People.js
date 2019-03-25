@@ -23,6 +23,7 @@ class People extends PureComponent {
   static contextType = LanguageContext;
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     this.fetchPeopleDataById(
       this.props.match.params.peopleId,
       this.props.language
