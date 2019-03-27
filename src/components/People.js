@@ -3,6 +3,7 @@ import { getPeopleDatasById } from '../services/MoviesApi';
 import { LanguageContext } from '../contexts/LanguageContext';
 import withLanguagesContext from '../hoc/withLanguagesContext';
 import { LANGUAGES } from '../utils/languages';
+import { API_IMG } from '../utils/APIConst';
 import {
   MovieContent,
   MovieImg,
@@ -77,7 +78,7 @@ class People extends PureComponent {
       <div>
         <MovieContent>
           <MovieImg>
-            <img src={`https://image.tmdb.org/t/p/w300/${photo}`} alt={name} />
+            <img src={`${API_IMG}${photo}`} alt={name} />
           </MovieImg>
           <MovieDetails>
             <h2>{name}</h2>

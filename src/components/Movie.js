@@ -4,14 +4,13 @@ import { getMovieDatasById } from '../services/MoviesApi';
 import { LanguageContext } from '../contexts/LanguageContext';
 import withLanguagesContext from '../hoc/withLanguagesContext';
 import { LANGUAGES } from '../utils/languages';
+import { API_IMG } from '../utils/APIConst';
 import {
   MovieContent,
   MovieImg,
   MovieDetails,
   Info,
 } from '../stylized/movieStyle.js';
-
-const imgUrl = 'https://image.tmdb.org/t/p/w300/';
 
 class Movie extends PureComponent {
   constructor(props) {
@@ -82,7 +81,7 @@ class Movie extends PureComponent {
       <div>
         <MovieContent key={movieId}>
           <MovieImg>
-            <img src={`${imgUrl}${posterPath}`} alt={title} />
+            <img src={`${API_IMG}${posterPath}`} alt={title} />
           </MovieImg>
           <MovieDetails>
             <h2>{title}</h2>
