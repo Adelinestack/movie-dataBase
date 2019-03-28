@@ -18,7 +18,6 @@ class SearchBar extends PureComponent {
     this.state = {
       keywords: '',
       searchedMovies: [],
-      language: this.props.language,
     };
   }
 

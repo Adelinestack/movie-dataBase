@@ -18,7 +18,6 @@ class Movie extends PureComponent {
     this.state = {
       movieDatas: {},
       id: this.props.match.params.movieId,
-      language: this.props.language,
     };
   }
 
@@ -26,31 +25,42 @@ class Movie extends PureComponent {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.fetchMovieDataById(
-      this.props.match.params.movieId,
-      this.props.language
-    );
+    const {
+      match: {
+        params: { movieId },
+      },
+      language,
+    } = this.props;
+    this.fetchMovieDataById(movieId, language);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.match.params.movieId !== state.id) {
+  static getDerivedStateFromProps(
+    {
+      match: {
+        params: { movieId },
+      },
+    },
+    { id }
+  ) {
+    if (movieId !== id) {
       return {
         movieDatas: {},
-        id: props.match.params.movieId,
+        id: movieId,
       };
     }
     return null;
   }
 
-  componentDidUpdate(prevprops) {
-    if (
-      this.state.movieDatas.length === 0 ||
-      this.props.language !== prevprops.language
-    ) {
-      this.fetchMovieDataById(
-        this.props.match.params.movieId,
-        this.props.language
-      );
+  componentDidUpdate({ language: prevLanguage }) {
+    const { movieDatas } = this.state;
+    const {
+      language,
+      match: {
+        params: { movieId },
+      },
+    } = this.props;
+    if (movieDatas.length === 0 || language !== prevLanguage) {
+      this.fetchMovieDataById(movieId, language);
     }
   }
 

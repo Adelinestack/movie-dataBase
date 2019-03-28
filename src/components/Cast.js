@@ -22,19 +22,20 @@ class Cast extends PureComponent {
     this.fetchCastDataByMovieId(movieId, language);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.movieId !== state.id) {
+  static getDerivedStateFromProps({ movieId }, { id }) {
+    if (movieId !== id) {
       return {
         castDatas: [],
-        id: this.props.movieId,
+        id: movieId,
       };
     }
     return null;
   }
 
-  componentDidUpdate(prevprops) {
+  componentDidUpdate({ language: prevLanguage }) {
     const { movieId, language } = this.props;
-    if (this.state.castDatas === null || language !== prevprops.language) {
+    const { castDatas } = this.state;
+    if (castDatas === null || language !== prevLanguage) {
       this.fetchCastDataByMovieId(movieId, language);
     }
   }

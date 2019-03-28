@@ -22,12 +22,10 @@ export default class App extends PureComponent {
     this.fetchUpcomingMovies(this.state.language);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.upcomingMovies.length === 0 ||
-      this.state.language !== prevState.language
-    ) {
-      this.fetchUpcomingMovies(this.state.language);
+  componentDidUpdate(prevProps, { language: prevLanguage }) {
+    const { upcomingMovies, language } = this.state;
+    if (upcomingMovies.length === 0 || language !== prevLanguage) {
+      this.fetchUpcomingMovies(language);
     }
   }
   async fetchUpcomingMovies(language) {

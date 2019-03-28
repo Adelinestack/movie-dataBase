@@ -17,7 +17,6 @@ class People extends PureComponent {
     this.state = {
       peopleDatas: {},
       id: this.props.match.params.peopleId,
-      language: this.props.language,
     };
   }
 
@@ -25,31 +24,42 @@ class People extends PureComponent {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.fetchPeopleDataById(
-      this.props.match.params.peopleId,
-      this.props.language
-    );
+    const {
+      match: {
+        params: { peopleId },
+      },
+      language,
+    } = this.props;
+    this.fetchPeopleDataById(peopleId, language);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.match.params.peopleId !== state.id) {
+  static getDerivedStateFromProps(
+    {
+      match: {
+        params: { peopleId },
+      },
+    },
+    { id }
+  ) {
+    if (peopleId !== id) {
       return {
         peopleDatas: {},
-        id: props.match.params.peopleId,
+        id: peopleId,
       };
     }
     return null;
   }
 
-  componentDidUpdate(prevstate) {
-    if (
-      this.state.peopleDatas === null ||
-      this.props.language !== prevstate.language
-    ) {
-      this.fetchPeopleDataById(
-        this.props.match.params.peopleId,
-        this.props.language
-      );
+  componentDidUpdate({ language: prevLanguage }) {
+    const { peopleDatas } = this.state;
+    const {
+      language,
+      match: {
+        params: { peopleId },
+      },
+    } = this.props;
+    if (peopleDatas === null || language !== prevLanguage) {
+      this.fetchPeopleDataById(peopleId, language);
     }
   }
 
